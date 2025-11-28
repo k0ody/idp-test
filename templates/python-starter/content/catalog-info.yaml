@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name }}
+  description: Serviço Python criado via IDP
+  # Essa annotation é vital para o Backstage linkar o componente ao repo
+  annotations:
+    github.com/project-slug: ${{ values.repoOwner }}/${{ values.name }}
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
