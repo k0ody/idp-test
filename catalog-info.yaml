@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: firt-service
+  name: first-service
   description: test idp 
   annotations:
     github.com/project-slug: k0ody/idp-test # Ex: joao/api-teste
