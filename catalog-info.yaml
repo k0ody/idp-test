@@ -1,11 +1,11 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: first-service
-  description: test idp 
+  name: ${{ values.name }}
+  description: Serviço Python criado via IDP
   annotations:
-    github.com/project-slug: k0ody/idp-test # Ex: joao/api-teste
+    github.com/project-slug: ${{ values.repoOwner }}/${{ values.name }}
 spec:
   type: service
-  lifecycle: experimental
+  lifecycle: production
   owner: guests

@@ -44,6 +44,7 @@ spec:
         url: ./content # Pega o conteúdo da pasta 'content'
         values:
           name: ${{ parameters.name }}
+          repoOwner: ${{ parameters.repoOwner }}
 
     - id: publish
       name: Publicando no GitHub
