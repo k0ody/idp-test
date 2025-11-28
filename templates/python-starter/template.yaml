@@ -49,7 +49,6 @@ spec:
       name: Publicando no GitHub
       action: publish:github
       input:
-        allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: 'github.com?owner=${{ parameters.repoOwner }}&repo=${{ parameters.name }}'
         defaultBranch: main
