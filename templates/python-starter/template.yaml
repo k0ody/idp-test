@@ -2,62 +2,61 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: python-starter
-  title: Python Service CI/CD
-  description: Scaffold a Python service with CI/CD using GitHub Actions and Docker.
-  tags:
-    - python
-    - ci/cd
-    - github-actions
-    - docker
+  title: Python Service com CI/CD
+  description: Cria um serviço Python simples com GitHub Actions configurado.
 spec:
   owner: guests
   type: service
 
-    parameters:
-        - title: Informacoes do servico
-        required:
-            - name
-            - owner
-        properties:
-            name:
-            type: string
-            title: Service Name
-            description: The name of the Python service.
-            ui:autofocus: true
-            owner:
-            type: string
-            title: Service Owner
-            description: The owner of the service.
-            default: guests
-        - title: Localizacao do repositorio
-        required:
-            - repoOwner
-        properties:
-            repoOwner:
-            type: string
-            title: Repository Owner
-            description: The owner of the GitHub repository.
-    steps:
-      - id: fetch-base
-        name: Baixando template base
-        action: fetch:template
-        input:
-          url: ./content
-          values:
-            name: ${{ parameters.name }}
+  # O formulário que o usuário vai preencher na tela
+  parameters:
+    - title: Informações do Serviço
+      required:
+        - name
+        - owner
+      properties:
+        name:
+          title: Nome do Serviço
+          type: string
+          description: Nome único do projeto (ex: minha-api)
+          ui:autofocus: true
+        owner:
+          title: Dono (Owner)
+          type: string
+          description: Quem é dono desse componente
+          default: guests
+    
+    - title: Localização
+      required:
+        - repoOwner
+      properties:
+        repoOwner:
+          title: Organização/Usuário GitHub
+          type: string
+          description: Onde o repo será criado
 
-      - id: publish
-        name: Publish to GitHub
-        action: publish:github
-        input:
-          alloedHosts:
-            - github.com
-          repoUrl:'github.com?owner=${{ parameters.repoOwner }}&repo=${{ parameters.name }}'
-          defaultBranch: main
-          description: 'A Python service scaffolded with Backstage.'
-      - id: register
-        name: Register in Software Catalog
-        action: catalog:register
-        input:
-          repoContentPath: '/catalog-info.yaml'
-          repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+  # O passo a passo que o Backstage vai executar
+  steps:
+    - id: fetch-base
+      name: Baixando esqueleto do código
+      action: fetch:template
+      input:
+        url: ./content # Pega o conteúdo da pasta 'content'
+        values:
+          name: ${{ parameters.name }}
+
+    - id: publish
+      name: Publicando no GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: 'github.com?owner=${{ parameters.repoOwner }}&repo=${{ parameters.name }}'
+        defaultBranch: main
+
+    - id: register
+      name: Registrando no Catálogo
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
