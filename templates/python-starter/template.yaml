@@ -18,7 +18,7 @@ spec:
         name:
           title: Nome do Serviço
           type: string
-          description: Nome único do projeto (ex: minha-api)
+          description: Nome único do projeto
           ui:autofocus: true
         owner:
           title: Dono (Owner)
